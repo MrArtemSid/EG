@@ -58,11 +58,11 @@ int main(int argc, char *argv[]) {
     sun.setBrush(QBrush(Qt::yellow));
     scene.addItem(&sun);
 
-    QVector<QGraphicsEllipseItem*>tree;
+    QVector<QGraphicsEllipseItem*>waves;
     QVector<QGraphicsPolygonItem*>clouds;
 
     QPolygonF cloudShape;
-    // Add ellipses or circles to form the cloud shape
+
     cloudShape << QPointF(50, 50)
                << QPointF(70, 40)
                << QPointF(80, 30)
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < 20; ++i) {
         for (int j = 0; j < 15; ++j) {
             QGraphicsEllipseItem* ellipse = scene.addEllipse(50 * j + 2 * i, 400 + 10 * i, 80, 80, QPen(Qt::black), QBrush(Qt::darkBlue));
-            tree.push_back(ellipse);
+            waves.push_back(ellipse);
 
 
             QGraphicsPolygonItem *cloudItem = new QGraphicsPolygonItem(cloudShape);
@@ -120,16 +120,16 @@ int main(int argc, char *argv[]) {
 
     QObject::connect(&timer, &QTimer::timeout, [&](){
         int x = step % 800;
-        int y = -(x-350)*(x-350)/800 + 300; // Parabolic path
+        int y = -(x-350)*(x-350)/800 + 300; // Параболический путь солнца/луны
 
 
-        for (int i = 0; i < tree.size(); ++i) {
+        for (int i = 0; i < waves.size(); ++i) {
             int delta = 0;
             if (i % 2 == isNight)
                 delta = -1;
             else
                 delta = 1;
-            tree[i]->setPos(tree[i]->pos().x() + 2 * delta, tree[i]->pos().y());
+            waves[i]->setPos(waves[i]->pos().x() + 2 * delta, waves[i]->pos().y());
             clouds[i]->setPos((int)(clouds[i]->pos().x() + 1), clouds[i]->pos().y());
         }
 
